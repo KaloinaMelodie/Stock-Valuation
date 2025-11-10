@@ -1,0 +1,128 @@
+﻿@page
+@using BackOffice.Models
+@model StockModel
+@{
+	ViewData["Title"] = "Fiche de Stock";
+}
+
+
+<form method="get" asp-page-handler="ExportPdf" id="excludeFromPdf">
+	<input type="hidden" name="idproduit" value="@Model.Produit.IdProduit" />
+	<input type="hidden" name="handler" value="ExportPdf" />
+	<button type="submit" class="btn btn-primary" id="exportButton">Exporter en PDF</button>
+</form>
+<br/>
+<br/>
+<br/>
+<page size="A4" layout="portrait">
+	<div class="row">
+		<div class="col mb-3">
+		<!-- margin-left: 50px; -->
+			<h3 style="margin-bottom: 32px;margin-top: 10px;"><b>FICHE DE STOCK</b></h3>
+			<div style="padding-left:23px;width: 500px;border: 3px solid var(--bs-secondary) ;">
+				<div class="row">
+					<div class="col-md-6"><label class="col-form-label"><b>Nom du produit</b></label></div>
+					<div class="col-md-6"><label class="col-form-label">@Model.Produit.Nom</label></div>
+				</div>
+				<div class="row">
+					<div class="col-md-6"><label class="col-form-label"><b>Méthode</b></label></div>
+					<div class="col-md-6"><label class="col-form-label" >@Model.Produit.Method.MethodName</label></div>
+				</div>
+			</div>
+		</div> 
+
+		<table style="padding-left:23px;border: 3px solid var(--bs-secondary) ;">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Libelle</th>
+					<th></th>
+					<th>Entre</th>
+					<th></th>
+					<th></th>
+					<th>Sortie</th>
+					<th></th>
+					<th></th>
+					<th>Stocks</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td></td>
+					<td>QT</td>
+					<td>PU</td>
+					<td>Montant</td>
+					<td>QT</td>
+					<td>PU</td>
+					<td>Montant</td>
+					<td>QT</td>
+					<td>PU</td>
+					<td>Montant</td>
+				</tr>
+
+				@foreach (var item2 in Model.Mouvements)
+				{
+					<tr>
+						<td>@Html.DisplayFor(modelItem => item2.Daty) </td>
+						<td>@Html.DisplayFor(modelItem => item2.Libelle)</td>
+						@if(item2.IdAction==2){
+						<td></td>
+						<td></td>
+						<td></td>}
+						<td>@Html.DisplayFor(modelItem => item2.Qt)</td>
+						<td>@Html.DisplayFor(modelItem => item2.Pu)</td>
+						<td>@((item2.Qt * item2.Pu).ToString("0.00")) MG</td>
+						@if(item2.IdAction==1){
+						<td></td>
+						<td></td>
+						<td></td>}
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					@if (item2.currentStock != null)
+					{
+						@foreach ((decimal QTE, decimal PU) item in item2.currentStock)
+						{
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>@item.QTE.ToString("0.00")</td>
+								<td>@item.PU.ToString("0.00") MGA</td>
+								<td>@((item.QTE * item.PU).ToString("0.00")) MGA</td>
+							</tr>
+
+						}
+					}
+				}
+
+			</tbody>
+		</table>
+</page>
+
+					@section Scripts {
+
+    <script>
+		// 	const exportButton = document.getElementById("exportButton");
+		// const form = document.getElementById("excludeFromPdf");
+		// form.style.display="block";
+		// 		exportButton.addEventListener("click", function(event) {
+		// 	Prevent the default form submission
+		// 	event.preventDefault();
+
+		// 	Hide the form
+		// 	form.style.display = "none";
+
+		// 	Submit the form programmatically
+		// 	form.submit();
+		// });
+		</script>
+					}

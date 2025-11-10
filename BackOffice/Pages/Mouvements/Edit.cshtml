@@ -1,0 +1,72 @@
+@page
+@model BackOffice.Pages.Mouvements.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Mouvement</h4>
+<hr />
+<div class="row"> 
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Mouvement.IdMouvement" />
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.IdProduit" class="control-label"></label>
+                <select asp-for="Mouvement.IdProduit" class="form-control" asp-items="ViewBag.IdProduit"></select>
+                <span asp-validation-for="Mouvement.IdProduit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.Libelle" class="control-label"></label>
+                <input asp-for="Mouvement.Libelle" class="form-control" />
+                <span asp-validation-for="Mouvement.Libelle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.Daty" class="control-label"></label>
+                <input asp-for="Mouvement.Daty" class="form-control" />
+                <span asp-validation-for="Mouvement.Daty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.IdAction" class="control-label"></label>
+                <select asp-for="Mouvement.IdAction" class="form-control" asp-items="ViewBag.IdAction"></select>
+                <span asp-validation-for="Mouvement.IdAction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.Qt" class="control-label"></label>
+                <input asp-for="Mouvement.Qt" class="form-control" />
+                <span asp-validation-for="Mouvement.Qt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.Pu" class="control-label"></label>
+                <input asp-for="Mouvement.Pu" class="form-control" />
+                <span asp-validation-for="Mouvement.Pu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="Mouvement.Montant" class="control-label"></label>
+                <input asp-for="Mouvement.Montant" class="form-control" />
+                <span asp-validation-for="Mouvement.Montant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,99 @@
+@page
+@model BackOffice.Pages.Mouvements.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Liste Mouvement</h1>
+ 
+@* <p> *@
+@*     <a asp-page="Create">Create New</a> *@
+@* </p> *@
+<p>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="col-md-6">
+            <label for="csvFile" class="form-label">Import CSV:</label>
+            <input type="file" id="csvFile" name="csvFile" class="form-control" accept=".csv" required />
+        </div>
+
+        <div class="">
+            <button type="submit" class="btn btn-black"
+                    type="submit">
+                Import
+            </button>
+
+        </div>
+    </form>
+
+</p>
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-octagon me-1"></i>
+        @Model.ErrorMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<table class="table datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Produit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Libelle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Daty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Action)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Qt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Pu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mouvement[0].Montant)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Mouvement) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Produit.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Libelle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Daty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Action.ActionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pu)
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.Montant) *@
+                @((item.Qt*item.Pu).ToString("0.00"))
+            </td>
+                <td>
+                    <a asp-page="./Edit" class="btn btn-secondary" asp-route-id="@item.IdMouvement">Edit</a> |
+                    <a asp-page="./Details" class="btn btn-primary" asp-route-id="@item.IdMouvement">Details</a> |
+                    <a asp-page="./Delete" class="btn btn-danger" asp-route-id="@item.IdMouvement">Delete</a>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,113 @@
+@page
+@model BackOffice.Pages.Produit.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1> 
+
+<div>
+    <h4>Produit</h4>
+    <hr />
+    <dl class="row"> 
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Produit.Nom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Produit.Nom)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Produit.CategorieProduit)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Produit.CategorieProduit.Categorie)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Produit.Method)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Produit.Method.MethodName)
+        </dd>
+    </dl>
+ 
+
+    <h4>Insertion Mouvement</h4>
+    <hr />
+    @if (Model.ErrorMessage != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-octagon me-1"></i>
+            @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>    
+                <input type="hidden" asp-for="Mouvement.IdProduit" value="@Model.Produit.IdProduit" />
+
+                <div class="form-group">
+                    <label asp-for="Mouvement.Libelle" class="control-label"></label>
+                    <input asp-for="Mouvement.Libelle" class="form-control" />
+                    <span asp-validation-for="Mouvement.Libelle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mouvement.Daty" class="control-label">Date</label>
+                    <input asp-for="Mouvement.Daty" class="form-control" />
+                    <span asp-validation-for="Mouvement.Daty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mouvement.IdAction" class="control-label">Action</label>
+                    <select id="IdAction" asp-for="Mouvement.IdAction" class="form-control" asp-items="ViewBag.IdAction"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mouvement.Qt" class="control-label"></label>
+                    <input asp-for="Mouvement.Qt" class="form-control"  />
+                    <span asp-validation-for="Mouvement.Qt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mouvement.Pu" class="control-label"></label>
+                    <input id="Pu" asp-for="Mouvement.Pu" class="form-control" />
+                    <span asp-validation-for="Mouvement.Pu" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Produit.IdProduit">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const idActionDropdown = document.getElementById("IdAction");
+            const puField = document.getElementById("Pu");
+
+            // Function to toggle Pu field visibility
+            function togglePuField() {
+                if (idActionDropdown.value === "2") {
+                    puField.closest(".form-group").style.display = "none";
+                } else {
+                    puField.closest(".form-group").style.display = "";
+                }
+            }
+
+            // Initial check on page load
+            togglePuField();
+
+            // Attach event listener for changes
+            idActionDropdown.addEventListener("change", togglePuField);
+        });
+    </script>
+}

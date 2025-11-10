@@ -1,0 +1,174 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+
+
+@* <table class="table"> *@
+@* 	<thead> *@
+@* 		<tr> *@
+@* 			<th>Year</th> *@
+@* 			<th>Month</th> *@
+@* 			<th>Revenue</th> *@
+@* 		</tr> *@
+@* 	</thead> *@
+@* 	<tbody> *@
+@* 		@foreach (var revenue in Model.Revenues) *@
+@* 		{ *@
+@* 			<tr> *@
+@* 				<td>@revenue.Year</td> *@
+@* 				<td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(revenue.Month)</td> *@
+@* 				<td>@revenue.Revenue</td> *@
+@* 			</tr> *@
+@* 		} *@
+@* 	</tbody> *@
+@* </table> *@
+
+<div class="col-lg-12">
+	<div class="card">
+		<div class="card-body">
+
+			<!-- Accordion without outline borders -->
+			<div class="accordion accordion-flush" id="accordionFlushExample">
+				<div class="accordion-item">
+					<h5 class="accordion-header" id="flush-headingOne">
+						<button class="accordion-button collapsed" type="button"
+								data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+								aria-expanded="false" aria-controls="flush-collapseOne">
+							Filtre
+						</button>
+					</h5>
+					<div id="flush-collapseOne" class="accordion-collapse collapse"
+						 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+						<div class="accordion-body">
+							<form class="row g-3" method="get">
+								<div class="col-md-6">
+									<label for="StartDate" class="form-label">Start Date</label>
+									<input type="date" id="dateInput" asp-for="StartDate" class="form-control" />
+								</div>
+								<div class="col-md-6">
+									<label for="EndDate" class="form-label">End Date</label>
+									<input type="date" asp-for="EndDate" class="form-control" />
+								</div>
+								
+								<div class="text-center">
+									<button type="submit" class="btn btn-black"
+											type="submit">
+										Filter
+									</button>
+
+								</div>
+							</form><!-- End Multi Columns Form -->
+
+						</div>
+					</div>
+				</div>
+
+			</div><!-- End Accordion without outline borders -->
+
+		</div>
+	</div>
+</div>
+
+
+
+<div class="col-12">
+
+	<div class="card">
+
+		@* <div class="filter"> *@
+		@* 	<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a> *@
+		@* 	<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> *@
+		@* 		<li class="dropdown-header text-start"> *@
+		@* 			<h6>Filter</h6> *@
+		@* 		</li> *@
+
+		@* 		<li><a class="dropdown-item" href="#">Today</a></li> *@
+		@* 		<li><a class="dropdown-item" href="#">This Month</a></li> *@
+		@* 		<li><a class="dropdown-item" href="#">This Year</a></li> *@
+		@* 	</ul> *@
+		@* </div> *@
+
+		<div class="card-body">
+			<h5 class="card-title"> <span></span></h5>
+
+			<!-- Line Chart -->
+			<!-- Line Chart -->
+			<div id="reportsChart"></div>
+
+			<script>
+				document.addEventListener("DOMContentLoaded", () => {
+					// Les données revenues générées côté serveur
+					const revenues = @Html.Raw(Json.Serialize(Model.Revenues.Select(r => new
+					{
+						//date = $"{r.Year}-{r.Month.ToString("D2")}-01", // Format "YYYY-MM-01"
+						date = r.Year + " " + @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(r.Month),
+						revenue = r.Revenue
+					})));
+
+					// Extraire les catégories (dates) et les revenus
+					const categories = revenues.map(r => r.date);
+					const revenueData = revenues.map(r => r.revenue);
+
+					new ApexCharts(document.querySelector("#reportsChart"), {
+						series: [
+							{
+								name: 'Revenue',
+								data: revenueData
+							}
+						],
+						chart: {
+							height: 350,
+							type: 'line',
+							toolbar: {
+								show: false
+							},
+						},
+						markers: {
+							size: 4
+						},
+						colors: ['#4154f1'],
+						fill: {
+							type: "gradient",
+							gradient: {
+								shadeIntensity: 1,
+								opacityFrom: 0.3,
+								opacityTo: 0.4,
+								stops: [0, 90, 100]
+							}
+						},
+						dataLabels: {
+							enabled: false
+						},
+						stroke: {
+							curve: 'smooth',
+							width: 2
+						},
+						xaxis: {
+							type: 'category',
+							categories: categories // Les dates formatées
+						},
+						tooltip: {
+							x: {
+								format: 'MM/yyyy' // Affichage du mois et année dans le tooltip
+							},
+						}
+					}).render();
+				});
+			</script>
+
+
+			<!-- End Line Chart -->
+
+		</div>
+
+	</div>
+</div><!-- End Reports -->
+@section Scripts {
+
+	<script>
+		// document.getElementById("dateInput").value = new Date().toISOString().split('T')[0];
+
+	</script>
+}

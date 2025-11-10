@@ -1,0 +1,54 @@
+@page
+@model BackOffice.Pages.Produit.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Liste produits</h1>
+
+<table class="table datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Produit[0].Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produit[0].CategorieProduit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produit[0].Method)
+            </th>
+            <th></th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.Produit)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategorieProduit.Categorie)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Method.MethodName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" class="btn btn-secondary"  asp-route-id="@item.IdProduit">Edit</a> |
+                    <a asp-page="./Details" class="btn btn-primary" asp-route-id="@item.IdProduit">Details</a> |
+                    <a asp-page="./Delete" class="btn btn-danger" asp-route-id="@item.IdProduit">Delete</a>
+                </td>
+                <td>
+                    <a asp-page="/Stocks/Stock" asp-route-idproduit="@item.IdProduit" class="btn btn-success" asp-route-id="@item.IdProduit">Generer Fiche de Stock</a>
+
+                </td>
+            </tr>
+        }
+     
+    </tbody>
+</table>

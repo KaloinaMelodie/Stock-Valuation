@@ -1,0 +1,62 @@
+@page
+@model BackOffice.Pages.Mouvements.CreateModel
+
+        @{
+        ViewData["Title"] = "Create";
+        }
+        
+        <h1>Create</h1>
+        
+    <h4>Mouvement</h4>
+    <hr /> 
+    <div class="row">
+    <div class="col-md-4">
+    <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Mouvement.IdProduit" class="control-label"></label>
+                <select asp-for="Mouvement.IdProduit" class ="form-control" asp-items="ViewBag.IdProduit"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mouvement.Libelle" class="control-label"></label>
+                <input asp-for="Mouvement.Libelle" class="form-control" />
+                <span asp-validation-for="Mouvement.Libelle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mouvement.Daty" class="control-label"></label>
+                <input asp-for="Mouvement.Daty" class="form-control" />
+                <span asp-validation-for="Mouvement.Daty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mouvement.IdAction" class="control-label"></label>
+                <select asp-for="Mouvement.IdAction" class ="form-control" asp-items="ViewBag.IdAction"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mouvement.Qt" class="control-label"></label>
+                <input asp-for="Mouvement.Qt" class="form-control" />
+                <span asp-validation-for="Mouvement.Qt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mouvement.Pu" class="control-label"></label>
+                <input asp-for="Mouvement.Pu" class="form-control" />
+                <span asp-validation-for="Mouvement.Pu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mouvement.Montant" class="control-label"></label>
+                <input asp-for="Mouvement.Montant" class="form-control" />
+                <span asp-validation-for="Mouvement.Montant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
